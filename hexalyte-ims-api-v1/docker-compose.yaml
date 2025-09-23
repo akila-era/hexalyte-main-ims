@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container-ims
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_TCP_PORT: ${DB_PORT}
+    networks:
+      - mynetwork-ims
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backup:/var/lib/mysql-files/backup
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin-container-ims
+    environment:
+      PMA_HOST: ${PMA_HOST}
+      PMA_PORT: ${PMA_PORT}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PMA_FORCE_SSL: 'false'
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "7070:80"
+    networks:
+      - mynetwork-ims
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  app:
+    build: .
+    container_name: node-app-ims
+    env_file:
+      - .env
+    ports:
+      - "5555:${APP_PORT}"
+    networks:
+      - mynetwork-ims
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  mynetwork-ims:
+    driver: bridge
+
+volumes:
+  mysql_data:

@@ -1,0 +1,74 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container-ims
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_TCP_PORT: ${DB_PORT}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backup:/var/lib/mysql-files/backup
+    networks:
+      - mynetwork-ims
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin-container-ims
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: ${PMA_PORT}
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASSWORD}
+      PMA_FORCE_SSL: 'false'
+    ports:
+      - "7070:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - mynetwork-ims
+
+  backend:
+    build:
+      context: ./hexalyte-ims-api-v1
+    container_name: node-backend-ims
+    env_file:
+      - .env
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - mynetwork-ims
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./hexalyte-ims-ui-v1
+    container_name: react-frontend-ims
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork-ims
+    depends_on:
+      - backend
+    environment:
+      REACT_APP_API_URL: http://backend:${APP_PORT}
+
+networks:
+  mynetwork-ims:
+    driver: bridge
+
+volumes:
+  mysql_data:
