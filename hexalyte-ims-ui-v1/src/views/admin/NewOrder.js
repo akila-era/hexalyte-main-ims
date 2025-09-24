@@ -567,31 +567,36 @@ const NewOrderComponent = () => {
             </div>
 
             {/* Modal Content */}
-            <div className="p-6 space-y-6">
-              {/* Status Overview */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Package className="text-blue-600" size={20} />
-                    <span className="font-medium text-blue-900">Order Status</span>
+            <div className="p-6 space-y-4">
+              {/* All information in vertical layout */}
+              <div className="space-y-4">
+                {/* Order Status */}
+                <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2">
+                    <Package className="text-blue-600" size={16} />
+                    <span className="font-medium text-gray-700">Order Status</span>
                   </div>
                   {getStatusBadge(selectedOrder.Status || 'Pending')}
                 </div>
-                <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Phone className="text-green-600" size={20} />
-                    <span className="font-medium text-green-900">Call Status</span>
+
+                {/* Call Status */}
+                <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2">
+                    <Phone className="text-green-600" size={16} />
+                    <span className="font-medium text-gray-700">Call Status</span>
                   </div>
                   {getCallStatusBadge(selectedOrder.CallStatus || 'Not Called')}
                 </div>
-                <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Star className="text-purple-600" size={20} />
-                    <span className="font-medium text-purple-900">Priority</span>
+
+                {/* Priority */}
+                <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2">
+                    <Star className="text-purple-600" size={16} />
+                    <span className="font-medium text-gray-700">Priority</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Star 
-                      size={16} 
+                      size={14} 
                       className={`${selectedOrder.Priority === 'High' ? 'text-red-500 fill-red-500' : 
                                     selectedOrder.Priority === 'Medium' ? 'text-yellow-500 fill-yellow-500' : 
                                     'text-gray-400'}`} 
@@ -599,167 +604,214 @@ const NewOrderComponent = () => {
                     <span className="text-sm font-medium">{selectedOrder.Priority || 'Normal'}</span>
                   </div>
                 </div>
-              </div>
 
-              {/* Customer Information */}
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <User size={20} />
-                  Customer Information
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Customer Name</label>
-                    <p className="text-gray-900 font-medium">{selectedOrder.CustomerName || 'N/A'}</p>
+                {/* Customer Name */}
+                <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2">
+                    <User className="text-gray-600" size={16} />
+                    <span className="font-medium text-gray-700">Customer Name</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Primary Phone</label>
-                    <p className="text-gray-900 flex items-center gap-1">
-                      <Phone size={14} />
-                      {selectedOrder.PrimaryPhone || 'N/A'}
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Secondary Phone</label>
-                    <p className="text-gray-900 flex items-center gap-1">
-                      <Phone size={14} />
-                      {selectedOrder.SecondaryPhone || 'N/A'}
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Email</label>
-                    <p className="text-gray-900">{selectedOrder.CustomerEmail || 'N/A'}</p>
-                  </div>
+                  <span className="text-gray-900 font-medium">{selectedOrder.CustomerName || 'N/A'}</span>
                 </div>
-              </div>
 
-              {/* Address Information */}
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <MapPin size={20} />
-                  Address Information
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Full Address</label>
-                    <p className="text-gray-900">{selectedOrder.CustomerAddress || 'N/A'}</p>
+                {/* Primary Phone */}
+                <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2">
+                    <Phone className="text-gray-600" size={16} />
+                    <span className="font-medium text-gray-700">Primary Phone</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">City</label>
-                    <p className="text-gray-900">{selectedOrder.CityName || 'N/A'}</p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Pincode</label>
-                    <p className="text-gray-900">{selectedOrder.Pincode || 'N/A'}</p>
-                  </div>
+                  <span className="text-gray-900">{selectedOrder.PrimaryPhone || 'N/A'}</span>
                 </div>
-              </div>
 
-              {/* Order Information */}
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <Package size={20} />
-                  Order Information
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Order Date</label>
-                    <p className="text-gray-900 flex items-center gap-1">
-                      <Calendar size={14} />
-                      {selectedOrder.createdAt ? 
-                        new Date(selectedOrder.createdAt).toLocaleDateString('en-US', {
-                          weekday: 'short',
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        }) : 'N/A'
-                      }
-                    </p>
+                {/* Secondary Phone */}
+                {selectedOrder.SecondaryPhone && (
+                  <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                    <div className="flex items-center gap-2">
+                      <Phone className="text-gray-600" size={16} />
+                      <span className="font-medium text-gray-700">Secondary Phone</span>
+                    </div>
+                    <span className="text-gray-900">{selectedOrder.SecondaryPhone}</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Order Source</label>
-                    <p className="text-gray-900">{selectedOrder.OrderSource?.Name || 'N/A'}</p>
+                )}
+
+                {/* Email */}
+                {selectedOrder.CustomerEmail && (
+                  <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                    <div className="flex items-center gap-2">
+                      <User className="text-gray-600" size={16} />
+                      <span className="font-medium text-gray-700">Email</span>
+                    </div>
+                    <span className="text-gray-900">{selectedOrder.CustomerEmail}</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Page Name</label>
-                    <p className="text-gray-900">{selectedOrder.Page?.PageName || 'N/A'}</p>
+                )}
+
+                {/* Address */}
+                <div className="py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <MapPin className="text-gray-600" size={16} />
+                    <span className="font-medium text-gray-700">Address</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Total Amount</label>
-                    <p className="text-gray-900 font-semibold flex items-center gap-1">
-                      <CreditCard size={14} />
-                      ₹{selectedOrder.TotalAmount || '0'}
-                    </p>
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Remarks</label>
-                    <p className="text-gray-900">{selectedOrder.Remark || 'No remarks'}</p>
-                  </div>
+                  <p className="text-gray-900 ml-6">{selectedOrder.CustomerAddress || 'N/A'}</p>
                 </div>
-              </div>
 
-              {/* Order Items */}
-              {selectedOrder.NewOrderItems && selectedOrder.NewOrderItems.length > 0 && (
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Order Items</h3>
-                  <div className="space-y-3">
-                    {selectedOrder.NewOrderItems.map((item, index) => (
-                      <div key={index} className="bg-white p-4 rounded-lg border">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-500 mb-1">Product</label>
-                            <p className="text-gray-900 font-medium">
-                              {item.subProduct?.product?.Name || 'N/A'}
-                            </p>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-500 mb-1">Serial Number</label>
-                            <p className="text-gray-900">{item.subProduct?.serialNumber || 'N/A'}</p>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-500 mb-1">Quantity</label>
-                            <p className="text-gray-900">{item.Quantity || 1}</p>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-500 mb-1">Unit Price</label>
-                            <p className="text-gray-900">₹{item.UnitPrice || '0'}</p>
+                {/* City */}
+                <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="text-gray-600" size={16} />
+                    <span className="font-medium text-gray-700">City</span>
+                  </div>
+                  <span className="text-gray-900">{selectedOrder.CityName || 'N/A'}</span>
+                </div>
+
+                {/* Pincode */}
+                {selectedOrder.Pincode && (
+                  <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="text-gray-600" size={16} />
+                      <span className="font-medium text-gray-700">Pincode</span>
+                    </div>
+                    <span className="text-gray-900">{selectedOrder.Pincode}</span>
+                  </div>
+                )}
+
+                {/* Order Date */}
+                <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="text-gray-600" size={16} />
+                    <span className="font-medium text-gray-700">Order Date</span>
+                  </div>
+                  <span className="text-gray-900">
+                    {selectedOrder.createdAt ? 
+                      new Date(selectedOrder.createdAt).toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      }) : 'N/A'
+                    }
+                  </span>
+                </div>
+
+                {/* Order Source */}
+                {selectedOrder.OrderSource?.Name && (
+                  <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                    <div className="flex items-center gap-2">
+                      <Package className="text-gray-600" size={16} />
+                      <span className="font-medium text-gray-700">Order Source</span>
+                    </div>
+                    <span className="text-gray-900">{selectedOrder.OrderSource.Name}</span>
+                  </div>
+                )}
+
+                {/* Page Name */}
+                {selectedOrder.Page?.PageName && (
+                  <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                    <div className="flex items-center gap-2">
+                      <Package className="text-gray-600" size={16} />
+                      <span className="font-medium text-gray-700">Page Name</span>
+                    </div>
+                    <span className="text-gray-900">{selectedOrder.Page.PageName}</span>
+                  </div>
+                )}
+
+                {/* Total Amount */}
+                <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="text-gray-600" size={16} />
+                    <span className="font-medium text-gray-700">Total Amount</span>
+                  </div>
+                  <span className="text-gray-900 font-semibold">₹{selectedOrder.TotalAmount || '0'}</span>
+                </div>
+
+                {/* Remarks */}
+                {selectedOrder.Remark && (
+                  <div className="py-2 border-b border-gray-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Package className="text-gray-600" size={16} />
+                      <span className="font-medium text-gray-700">Remarks</span>
+                    </div>
+                    <p className="text-gray-900 ml-6">{selectedOrder.Remark}</p>
+                  </div>
+                )}
+
+                {/* Order Items */}
+                {selectedOrder.NewOrderItems && selectedOrder.NewOrderItems.length > 0 && (
+                  <div className="py-2 border-b border-gray-200">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Package className="text-gray-600" size={16} />
+                      <span className="font-medium text-gray-700">Order Items</span>
+                    </div>
+                    <div className="ml-6 space-y-3">
+                      {selectedOrder.NewOrderItems.map((item, index) => (
+                        <div key={index} className="bg-gray-50 p-3 rounded-lg">
+                          <div className="space-y-2">
+                            <div className="flex justify-between">
+                              <span className="text-sm font-medium text-gray-600">Product:</span>
+                              <span className="text-sm text-gray-900">{item.subProduct?.product?.Name || 'N/A'}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-sm font-medium text-gray-600">Serial Number:</span>
+                              <span className="text-sm text-gray-900">{item.subProduct?.serialNumber || 'N/A'}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-sm font-medium text-gray-600">Quantity:</span>
+                              <span className="text-sm text-gray-900">{item.Quantity || 1}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-sm font-medium text-gray-600">Unit Price:</span>
+                              <span className="text-sm text-gray-900">₹{item.UnitPrice || '0'}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Delivery Information */}
-              {selectedOrder.DeliveryPartner && (
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <Truck size={20} />
-                    Delivery Information
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-500 mb-1">Delivery Partner</label>
-                      <p className="text-gray-900 font-medium">{selectedOrder.DeliveryPartner.CompanyName}</p>
+                {/* Delivery Partner */}
+                {selectedOrder.DeliveryPartner && (
+                  <>
+                    <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        <Truck className="text-gray-600" size={16} />
+                        <span className="font-medium text-gray-700">Delivery Partner</span>
+                      </div>
+                      <span className="text-gray-900 font-medium">{selectedOrder.DeliveryPartner.CompanyName}</span>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-500 mb-1">Tracking Number</label>
-                      <p className="text-gray-900">{selectedOrder.TrackingNumber || 'Not assigned'}</p>
+
+                    {/* Tracking Number */}
+                    {selectedOrder.TrackingNumber && (
+                      <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                        <div className="flex items-center gap-2">
+                          <Truck className="text-gray-600" size={16} />
+                          <span className="font-medium text-gray-700">Tracking Number</span>
+                        </div>
+                        <span className="text-gray-900">{selectedOrder.TrackingNumber}</span>
+                      </div>
+                    )}
+
+                    {/* Payment Mode */}
+                    <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        <CreditCard className="text-gray-600" size={16} />
+                        <span className="font-medium text-gray-700">Payment Mode</span>
+                      </div>
+                      <span className="text-gray-900">{selectedOrder.PaymentMode || 'COD'}</span>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-500 mb-1">Payment Mode</label>
-                      <p className="text-gray-900">{selectedOrder.PaymentMode || 'COD'}</p>
+
+                    {/* Delivery Fee */}
+                    <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        <CreditCard className="text-gray-600" size={16} />
+                        <span className="font-medium text-gray-700">Delivery Fee</span>
+                      </div>
+                      <span className="text-gray-900">₹{selectedOrder.DeliveryFee || '0'}</span>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-500 mb-1">Delivery Fee</label>
-                      <p className="text-gray-900">₹{selectedOrder.DeliveryFee || '0'}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
+                  </>
+                )}
+              </div>
             </div>
 
             {/* Modal Footer */}
