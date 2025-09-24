@@ -43,37 +43,14 @@ import ManageDeliveryCompanies from "../views/admin/ManageDeliveryCompanies";
 import OrderStatusManager from "../views/admin/OrderStatusManager";
 
 export default function Admin() {
-  const [sidebarOpen, setSidebarOpen] = React.useState(false);
-
   return (
     <>
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      
-      {/* Overlay for mobile */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-gray-600 bg-opacity-50 z-40 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-      
-      <div className="w-full min-h-screen">
-        {/* Mobile menu button */}
-        <div className="md:hidden bg-white border-b border-gray-200 px-4 py-3">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="text-gray-600 hover:text-gray-900 focus:outline-none focus:text-gray-900"
-          >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-        
+      <Sidebar />
+      <div className="relative md:ml-64 ">
         {/* <AdminNavbar /> */}
         {/* Header */}
         {/* <HeaderStats /> */}
-        <div className="w-full min-h-screen">
+        <div className="px-4 md:px-10 mx-auto w-full">
           <Switch>
             <Route path="/admin/dashboard" exact component={Dashboard} />
             <Route path="/admin/sales-orders" exact component={SalesOrders}/>
