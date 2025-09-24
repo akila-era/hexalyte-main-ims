@@ -511,7 +511,7 @@ import { getStoredTokens } from "auth/tokenService";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export default function Sidebar() {
+export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const [collapseShow, setCollapseShow] = useState("hidden");
   const [expandedSections, setExpandedSections] = useState({});
   const history = useHistory();
@@ -608,15 +608,15 @@ export default function Sidebar() {
     <>
       <nav
         id="main-sidebar"
-        className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-lg bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-0 px-0"
+        className={`fixed left-0 top-0 bottom-0 overflow-y-auto flex-row flex-nowrap overflow-hidden shadow-lg bg-white flex flex-wrap items-center justify-between w-64 z-50 py-0 px-0 transform transition-transform duration-300 ease-in-out md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           {/* Toggler */}
           <button
             className="cursor-pointer text-gray-600 md:hidden px-5 py-2 text-xl leading-none bg-transparent rounded-md hover:bg-gray-100 transition-colors duration-200"
             type="button"
-            onClick={() => setCollapseShow("bg-white m-2 py-3 px-6 shadow-lg rounded-lg")}
-            aria-label="Toggle navigation menu"
+            onClick={() => setSidebarOpen && setSidebarOpen(false)}
+            aria-label="Close navigation menu"
           >
             <i className="fas fa-bars"></i>
           </button>
