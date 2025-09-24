@@ -402,7 +402,7 @@ const DispatchOrderUI = () => {
               >
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Refresh
-              </button>
+            </button>
             </div>
           </div>
         </div>
@@ -529,9 +529,9 @@ const DispatchOrderUI = () => {
                 onClick={exportDispatchData}
                 className="px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 flex items-center"
               >
-                <Download className="w-4 h-4 mr-2" />
-                Export
-              </button>
+              <Download className="w-4 h-4 mr-2" />
+              Export
+            </button>
             </div>
           </div>
 
@@ -539,7 +539,7 @@ const DispatchOrderUI = () => {
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
-                <tr>
+              <tr>
                   <th className="px-6 py-3 text-left">
                     <input
                       type="checkbox"
@@ -547,29 +547,29 @@ const DispatchOrderUI = () => {
                       onChange={handleSelectAll}
                       className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Order Details
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Customer
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Customer
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Delivery Partner
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Tracking
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Amount
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Actions
-                  </th>
-                </tr>
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Actions
+                </th>
+              </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredOrders.length === 0 ? (
@@ -602,7 +602,7 @@ const DispatchOrderUI = () => {
                     const StatusIcon = statusInfo.icon;
                     
                     return (
-                      <tr key={order.id} className="hover:bg-gray-50">
+                <tr key={order.id} className="hover:bg-gray-50">
                         <td className="px-6 py-4">
                           <input
                             type="checkbox"
@@ -610,18 +610,18 @@ const DispatchOrderUI = () => {
                             onChange={() => handleOrderSelect(order.id)}
                             className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                           />
-                        </td>
+                  </td>
                         
                         <td className="px-6 py-4">
                           <div>
                             <div className="text-sm font-medium text-gray-900">{order.orderNumber}</div>
                             <div className="text-sm text-gray-500">{order.itemCount} items • {order.orderDate}</div>
                           </div>
-                        </td>
+                  </td>
                         
-                        <td className="px-6 py-4">
-                          <div>
-                            <div className="text-sm font-medium text-gray-900">{order.customerName}</div>
+                  <td className="px-6 py-4">
+                    <div>
+                      <div className="text-sm font-medium text-gray-900">{order.customerName}</div>
                             <div className="text-sm text-gray-500 flex items-center gap-1">
                               <Phone className="w-3 h-3" />
                               {order.customerPhone}
@@ -631,8 +631,8 @@ const DispatchOrderUI = () => {
                               <span className="line-clamp-2">{order.customerAddress}</span>
                             </div>
                             <div className="text-xs text-gray-400">{order.cityName}</div>
-                          </div>
-                        </td>
+                    </div>
+                  </td>
                         
                         <td className="px-6 py-4">
                           {order.deliveryPartner ? (
@@ -647,14 +647,14 @@ const DispatchOrderUI = () => {
                           ) : (
                             <span className="text-sm text-gray-400">Not assigned</span>
                           )}
-                        </td>
+                  </td>
                         
-                        <td className="px-6 py-4">
+                  <td className="px-6 py-4">
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusInfo.color}`}>
                             <StatusIcon className="w-3 h-3 mr-1" />
                             {statusInfo.label}
-                          </span>
-                        </td>
+                      </span>
+                  </td>
                         
                         <td className="px-6 py-4">
                           {order.trackingNumber !== 'Not assigned' ? (
@@ -681,9 +681,9 @@ const DispatchOrderUI = () => {
                               {order.paymentMode} • Delivery: Rs. {order.deliveryFee}
                             </div>
                           </div>
-                        </td>
+                  </td>
                         
-                        <td className="px-6 py-4">
+                  <td className="px-6 py-4">
                           <div className="flex space-x-2">
                             <button 
                               className="text-blue-600 hover:text-blue-900 p-1" 
@@ -709,8 +709,8 @@ const DispatchOrderUI = () => {
                                 });
                               }}
                             >
-                              <Eye className="w-4 h-4" />
-                            </button>
+                        <Eye className="w-4 h-4" />
+                      </button>
                             
                             {order.dispatchStatus === 'ready_for_dispatch' && (
                               <button 
@@ -729,18 +729,18 @@ const DispatchOrderUI = () => {
                                 onClick={() => updateOrderStatus(order.id, 'Delivered')}
                               >
                                 <CheckCircle className="w-4 h-4" />
-                              </button>
+                      </button>
                             )}
                             
                             <button 
                               className="text-gray-600 hover:text-gray-900 p-1" 
                               title="Print Dispatch Label"
                             >
-                              <Printer className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
+                        <Printer className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
                     );
                   })
                 )}
@@ -750,14 +750,14 @@ const DispatchOrderUI = () => {
 
           {/* Pagination Info */}
           {filteredOrders.length > 0 && (
-            <div className="flex items-center justify-between mt-6 pt-4 border-t">
-              <div className="text-sm text-gray-700">
+          <div className="flex items-center justify-between mt-6 pt-4 border-t">
+            <div className="text-sm text-gray-700">
                 Showing {filteredOrders.length} of {orders.length} dispatch orders
-              </div>
+            </div>
               <div className="text-sm text-gray-500">
                 Total Value: Rs. {filteredOrders.reduce((sum, order) => sum + order.totalAmount, 0).toLocaleString()}
-              </div>
             </div>
+          </div>
           )}
         </div>
       </div>

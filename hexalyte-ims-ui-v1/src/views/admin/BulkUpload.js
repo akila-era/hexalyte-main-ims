@@ -1110,40 +1110,40 @@ const BulkUploadComponent = () => {
                 </div>
 
                 {!pasteMode && (
-                  <div
-                    className={`relative border-2 border-dashed rounded-lg p-8 transition-colors ${dragActive
-                      ? "border-blue-400 bg-blue-50"
-                      : "border-gray-300 hover:border-gray-400"
-                      }`}
-                    onDragEnter={handleDrag}
-                    onDragLeave={handleDrag}
-                    onDragOver={handleDrag}
-                    onDrop={handleDrop}
-                  >
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".csv,.xls,.xlsx"
-                      onChange={handleFileInputChange}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
+                <div
+                  className={`relative border-2 border-dashed rounded-lg p-8 transition-colors ${dragActive
+                    ? "border-blue-400 bg-blue-50"
+                    : "border-gray-300 hover:border-gray-400"
+                  }`}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".csv,.xls,.xlsx"
+                    onChange={handleFileInputChange}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  />
 
-                    <div className="text-center">
-                      <Upload className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-                      <div className="text-lg text-gray-600 mb-2">
-                        <span className="font-medium text-blue-600 hover:text-blue-500">
-                          Click to upload
-                        </span>
-                        {" "}or drag and drop
-                      </div>
-                      <p className="text-sm text-gray-500">
-                        CSV/XLS/XLSX up to 50MB
-                      </p>
-                      <p className="text-xs text-gray-400 mt-2">
-                        Expected columns: {expectedColumns.join(", ")}
-                      </p>
+                  <div className="text-center">
+                    <Upload className="mx-auto h-16 w-16 text-gray-400 mb-4" />
+                    <div className="text-lg text-gray-600 mb-2">
+                                            <span className="font-medium text-blue-600 hover:text-blue-500">
+                                                Click to upload
+                                            </span>
+                      {" "}or drag and drop
                     </div>
+                    <p className="text-sm text-gray-500">
+                        CSV/XLS/XLSX up to 50MB
+                    </p>
+                    <p className="text-xs text-gray-400 mt-2">
+                      Expected columns: {expectedColumns.join(", ")}
+                    </p>
                   </div>
+                </div>
                 )}
 
                 {pasteMode && (
