@@ -64,7 +64,7 @@ services:
     depends_on:
       - backend
     environment:
-      REACT_APP_API_URL: http://backend:${APP_PORT}
+      REACT_APP_API_URL: http://localhost:${APP_PORT}
 
 networks:
   mynetwork-ims:

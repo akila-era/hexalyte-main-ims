@@ -90,10 +90,47 @@ const getAllNewOrders = catchAsync(async (req, res) => {
       console.log("Nested subProduct include failed:", error.message);
     }
 
+    // Final query with all includes for dispatch orders
+    try {
+      console.log("Final query with all includes...");
+      allNewOrders = await NewOrder.findAll({
+        include: [
+          {
+            model: db.DeliveryPartner,
+            required: false,
+          },
+          {
+            model: db.NewOrderItems,
+            required: false,
+            include: [{
+              model: db.subProduct,
+              required: false,
+              include: [{
+                model: db.product,
+                required: false,
+              }]
+            }],
+          },
+          {
+            model: db.Page,
+            required: false,
+          },
+          {
+            model: db.OrderSource,
+            required: false,
+          }
+        ],
+      });
+      console.log("Final query successful with", allNewOrders.length, "orders");
+    } catch (error) {
+      console.log("Final query failed:", error.message);
+      allNewOrders = basicOrders;
+    }
+
     return res.status(httpStatus.OK).json({
       success: true,
-      message: "Debug completed",
-      data: allNewOrders || basicOrders,
+      message: "Orders retrieved successfully",
+      data: allNewOrders,
     });
 
   } catch (error) {

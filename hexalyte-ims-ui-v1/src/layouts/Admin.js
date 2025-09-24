@@ -41,7 +41,6 @@ import PackOrder from "../views/admin/PackOrder";
 import DispatchOrder from "../views/admin/DispatchOrder";
 import ManageDeliveryCompanies from "../views/admin/ManageDeliveryCompanies";
 import OrderStatusManager from "../views/admin/OrderStatusManager";
-import BulkOrderStatusManager from "../views/admin/BulkOrderStatusManager";
 
 export default function Admin() {
   return (
@@ -78,7 +77,6 @@ export default function Admin() {
             <Route path="/admin/orders/new-orders/bulk-upload" exact component={BulkUploadComponent} />
             <Route path="/admin/orders/assign-delivery-partner" exact component={AssignDeliveryPartner} />
             <Route path="/admin/orders/status-manager" exact component={OrderStatusManager} />
-            <Route path="/admin/orders/bulk-status-manager" exact component={BulkOrderStatusManager} />
             <Route path="/admin/delivery/tracking-numbers" exact component={TrackingNumbers} />
             <Route path="/admin/delivery/companies" exact component={ManageDeliveryCompanies} />
             {/* <Route path="/admin/maps" exact component={Maps} />

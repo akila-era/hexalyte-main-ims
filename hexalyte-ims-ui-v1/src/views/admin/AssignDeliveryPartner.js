@@ -29,6 +29,11 @@ const AssignDeliveryPartner = () => {
   const [isLoadingTracking, setIsLoadingTracking] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  // New states for payment method and delivery cost
+  const [paymentMethod, setPaymentMethod] = useState("COD");
+  const [deliveryCost, setDeliveryCost] = useState(0);
+  const [isFreeDelivery, setIsFreeDelivery] = useState(true);
 
   const [orders, setOrders] = useState([]);
   const [deliveryPartners, setDeliveryPartners] = useState([]);
@@ -189,6 +194,8 @@ const AssignDeliveryPartner = () => {
         timeSlot: orderSchedules[orderId]?.timeSlot || "",
         priority,
         notes,
+        paymentMethod,
+        deliveryCost: isFreeDelivery ? 0 : deliveryCost,
       }));
   
       // Call API
@@ -225,6 +232,9 @@ const AssignDeliveryPartner = () => {
       setNotes("");
       setSearchQuery("");
       setIsDropdownOpen(false);
+      setPaymentMethod("COD");
+      setDeliveryCost(0);
+      setIsFreeDelivery(true);
   
       // Refresh orders list
       fetchOrders();
@@ -686,10 +696,62 @@ const AssignDeliveryPartner = () => {
             </div>
           </div>
 
-          {/* Additional Information */}
+          {/* Payment & Delivery Information */}
           <div className="mb-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Additional Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <h3 className="font-semibold text-gray-900 mb-3">Payment & Delivery Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Payment Method
+                </label>
+                <select
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="COD">Cash on Delivery</option>
+                  <option value="Card">Card Payment</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Delivery Cost
+                </label>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="freeDelivery"
+                      checked={isFreeDelivery}
+                      onChange={(e) => {
+                        setIsFreeDelivery(e.target.checked);
+                        if (e.target.checked) setDeliveryCost(0);
+                      }}
+                      className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <label htmlFor="freeDelivery" className="ml-2 text-sm text-gray-700">
+                      Free Delivery
+                    </label>
+                  </div>
+                  {!isFreeDelivery && (
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={deliveryCost}
+                      onChange={(e) => setDeliveryCost(parseFloat(e.target.value) || 0)}
+                      placeholder="Enter delivery cost..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  )}
+                  {isFreeDelivery && (
+                    <div className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded">
+                      ✓ Free delivery applied
+                    </div>
+                  )}
+                </div>
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Priority
@@ -704,18 +766,18 @@ const AssignDeliveryPartner = () => {
                   <option value="urgent">Urgent</option>
                 </select>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Notes
-                </label>
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Add delivery notes for all selected orders..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  rows="2"
-                />
-              </div>
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Notes
+              </label>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Add delivery notes for all selected orders..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                rows="2"
+              />
             </div>
           </div>
 
@@ -730,6 +792,8 @@ const AssignDeliveryPartner = () => {
                 <p><strong>Orders:</strong> {selectedOrders.length} selected</p>
                 <p><strong>Partner:</strong> {selectedPartnerData?.DeliveryPartnerName}</p>
                 <p><strong>Tracking Numbers:</strong> {trackingNumbers.length} assigned</p>
+                <p><strong>Payment Method:</strong> {paymentMethod}</p>
+                <p><strong>Delivery Cost:</strong> {isFreeDelivery ? "Free" : `Rs. ${deliveryCost}`}</p>
                 <p><strong>Scheduled
                   Orders:</strong> {Object.values(orderSchedules).filter(schedule => schedule.deliveryDate && schedule.timeSlot).length} of {selectedOrders.length}
                 </p>
@@ -778,6 +842,9 @@ const AssignDeliveryPartner = () => {
                 setPriority("normal");
                 setSearchQuery("");
                 setIsDropdownOpen(false);
+                setPaymentMethod("COD");
+                setDeliveryCost(0);
+                setIsFreeDelivery(true);
               }}
               className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
             >

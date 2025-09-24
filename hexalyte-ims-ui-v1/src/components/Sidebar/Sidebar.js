@@ -702,11 +702,6 @@ export default function Sidebar() {
                   isActive={isActive("/admin/orders/status-manager")}
                 />
                 <SidebarSubItem
-                  to="/admin/orders/bulk-status-manager"
-                  text="Bulk Status Manager"
-                  isActive={isActive("/admin/orders/bulk-status-manager")}
-                />
-                <SidebarSubItem
                   to="/admin/orders/pack-order"
                   text="Pack Order"
                   isActive={isActive("/admin/orders/pack-order")}

@@ -264,6 +264,7 @@ const addBulkOrders = async (orderData) => {
           CityName: item.City,
           Remark: item.Remark,
           Status: item.OrderStatus || 'Pending',
+          CallStatus: item.CallStatus || 'Not Called',
         });
 
         console.log("New order created:", createNewOrder.NewOrderID);
@@ -377,7 +378,9 @@ const assignOrdersToDeliveryPartner = async (orders) => {
         const updateOrder = await NewOrder.update({
           TrackingNumber: trackingNumber.trackingNumbers[0],
           DeliveryPartnerID: order.deliveryPartnerId,
-          Status: 'Processing'
+          Status: 'Processing',
+          PaymentMode: order.paymentMethod || 'COD',
+          DeliveryFee: order.deliveryCost || 0
         }, {
           where: {
             NewOrderID: order.orderId,

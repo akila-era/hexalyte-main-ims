@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { getStoredTokens, isTokenExpired, replaceTokens, clearTokens } from "auth/tokenService";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_API_URL + '/v1/' || process.env.REACT_APP_BASE_URL;
 
 export const createAxiosInstance = () => {
 

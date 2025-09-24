@@ -117,6 +117,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('Pending', 'Confirmed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'),
       allowNull: false,
       defaultValue: 'Pending'
+    },
+    CallStatus: {
+      type: DataTypes.ENUM('Not Called', 'Called', 'Answered', 'No Answer', 'Busy', 'Wrong Number', 'Callback Requested'),
+      allowNull: false,
+      defaultValue: 'Not Called'
     }
   }, {
     sequelize,

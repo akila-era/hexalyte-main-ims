@@ -178,7 +178,7 @@ const BulkUploadComponent = () => {
         const key = (row.Product || "").trim().toLowerCase();
         return productIndex[key] ? "MATCHED" : "UNMATCHED";
       })(),
-      CallStatus: row.CallStatus || "Pending Call",
+      CallStatus: row.CallStatus || "Not Called",
       OrderStatus: row.OrderStatus || "Pending",
       CustomerID: row.CustomerID || null,
       CustomerLabel: row.CustomerLabel || "",
@@ -243,6 +243,12 @@ const BulkUploadComponent = () => {
 
   const handleSubmitData = async () => {
     try {
+      // Check if we're in Load All Data mode (updating existing orders)
+      if (loadAllDataMode) {
+        return await handleUpdateExistingOrders();
+      }
+
+      // Original bulk upload logic for new orders
       const unmatched = extractedData.filter(r => r.MatchStatus !== "MATCHED");
       if (unmatched.length > 0) {
         Swal.fire({
@@ -284,7 +290,7 @@ const BulkUploadComponent = () => {
         Discount: Number(r.Discount) || 0,
         TotalPrice: Number(r.TotalPrice) || 0,
         AssignedUserID: r.AssignedUserID || null,
-        CallStatus: r.CallStatus || "Pending Call",
+        CallStatus: r.CallStatus || "Not Called",
         OrderStatus: r.OrderStatus || "Pending",
       }));
 
@@ -294,6 +300,80 @@ const BulkUploadComponent = () => {
       Swal.close();
       showBulkUploadResult(response);
       handleReset();
+
+    } catch (e) {
+      Swal.close();
+      showApiErrorAlert(e);
+    }
+  };
+
+  const handleUpdateExistingOrders = async () => {
+    try {
+      Swal.fire({
+        title: "Updating Orders...",
+        text: "Please wait while we update the order statuses",
+        icon: "info",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => Swal.showLoading(),
+      });
+
+      const api = createAxiosInstance();
+      const updatedOrders = [];
+      const errors = [];
+
+      // Update each order individually
+      for (const row of extractedData) {
+        if (row.NewOrderID) {
+          try {
+            // Update order status and call status
+            await api.put(`/neworder/${row.NewOrderID}`, {
+              CallStatus: row.CallStatus,
+              Status: row.OrderStatus,
+            });
+            updatedOrders.push(row.NewOrderID);
+          } catch (error) {
+            console.error(`Error updating order ${row.NewOrderID}:`, error);
+            errors.push(`Order ${row.NewOrderID}: ${error.response?.data?.message || 'Update failed'}`);
+          }
+        }
+      }
+
+      Swal.close();
+
+      if (errors.length === 0) {
+        Swal.fire({
+          icon: "success",
+          title: "Orders Updated Successfully!",
+          html: `
+            <div style="text-align: center; margin: 20px 0;">
+              <div style="font-size: 24px; font-weight: bold; color: #28a745; margin-bottom: 10px;">
+                ${updatedOrders.length}
+              </div>
+              <div style="color: #6c757d;">Orders Updated</div>
+            </div>
+          `,
+          confirmButtonText: "Great!",
+          confirmButtonColor: "#28a745",
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Partial Update",
+          html: `
+            <div style="margin-bottom: 15px;">
+              <strong>Updated:</strong> ${updatedOrders.length} orders<br>
+              <strong>Errors:</strong> ${errors.length} orders
+            </div>
+            <div style="background: #f8d7da; padding: 10px; border-radius: 5px; font-size: 12px; text-align: left;">
+              ${errors.slice(0, 5).join('<br>')}
+              ${errors.length > 5 ? '<br>...and more' : ''}
+            </div>
+          `,
+          confirmButtonText: "OK",
+        });
+      }
 
     } catch (e) {
       Swal.close();
@@ -678,18 +758,21 @@ const BulkUploadComponent = () => {
       width: "150px",
       cell: row => (
         <select
-          className={`w-full px-2 py-1 border border-gray-300 rounded-md text-sm ${getStatusBadge(row.CallStatus)}`}
-          value={row.CallStatus || "Pending Call"}
+          className="w-full px-2 py-1 border border-gray-300 rounded-md text-sm bg-white"
+          value={row.CallStatus || "Not Called"}
           onChange={(e) => {
             const value = e.target.value;
             console.log(`Updating CallStatus for row ${row.id} from "${row.CallStatus}" to "${value}"`);
             setExtractedData(prev => prev.map(r => r.id === row.id ? { ...r, CallStatus: value } : r));
           }}
         >
-          <option value="Pending Call">Pending Call</option>
-          <option value="Called – Confirmed">Called – Confirmed</option>
-          <option value="Called – Rejected">Called – Rejected</option>
-          <option value="Follow-up Required">Follow-up Required</option>
+          <option value="Not Called">Not Called</option>
+          <option value="Called">Called</option>
+          <option value="Answered">Answered</option>
+          <option value="No Answer">No Answer</option>
+          <option value="Busy">Busy</option>
+          <option value="Wrong Number">Wrong Number</option>
+          <option value="Callback Requested">Callback Requested</option>
         </select>
       ),
     },
@@ -917,6 +1000,7 @@ const BulkUploadComponent = () => {
         const assignedUser = users.find(u => u.firstname === order.CallerAgent || u.username === order.CallerAgent);
         return computeRow({
           id: idx + 1,
+          NewOrderID: order.NewOrderID, // Add the original order ID for updates
           No: String(idx + 1),
           CustomerName: order.CustomerName || "",
           MobileNo1: order.PrimaryPhone || "",
@@ -932,8 +1016,8 @@ const BulkUploadComponent = () => {
           MatchedProductName: "Various Products",
           MatchedProductSellingPrice: 0,
           MatchStatus: "MATCHED",
-          CallStatus: "Pending Call",
-          OrderStatus: "Pending",
+          CallStatus: order.CallStatus || "Not Called",
+          OrderStatus: order.Status || "Pending",
           AssignedUserID: assignedUser ? assignedUser.id : null,
           AssignedUserLabel: assignedUser ? `${assignedUser.firstname} ${assignedUser.lastname}` : "",
           UnitPrice: 0,

@@ -1,16 +1,17 @@
 const express = require("express")
 const router = express.Router()
 const deliveryPartnerController = require("../../controller/deliveryPartner.controller")
+const { auth } = require("../../middleware/auth")
 
 router
     .route('/')
-    .get(deliveryPartnerController.getAllDeliveryPartners)
-    .post(deliveryPartnerController.addDeliveryPartner)
+    .get(auth(), deliveryPartnerController.getAllDeliveryPartners)
+    .post(auth(), deliveryPartnerController.addDeliveryPartner)
 
 router
     .route('/:id')
-    .get(deliveryPartnerController.getDeliveryPartnerByID)
-    .put(deliveryPartnerController.updateDeliveryPartnerById)
-    .delete(deliveryPartnerController.deleteDeliveryPartnerById)
+    .get(auth(), deliveryPartnerController.getDeliveryPartnerByID)
+    .put(auth(), deliveryPartnerController.updateDeliveryPartnerById)
+    .delete(auth(), deliveryPartnerController.deleteDeliveryPartnerById)
 
 module.exports = router

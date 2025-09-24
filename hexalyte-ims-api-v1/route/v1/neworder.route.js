@@ -1,24 +1,25 @@
 const express = require("express")
 const router = express.Router()
 const newOrderController = require("../../controller/newOrder.controller")
+const { auth } = require("../../middleware/auth")
 
 router
     .route('/')
-    .get(newOrderController.getAllNewOrders)
-    .post(newOrderController.addNewOrder)
+    .get(auth(), newOrderController.getAllNewOrders)
+    .post(auth(), newOrderController.addNewOrder)
 
 router
     .route('/:id')
-    .get(newOrderController.getNewOrderByID)
-    .put(newOrderController.updateNewOrderById)
-    .delete(newOrderController.deleteNewOrderById)
+    .get(auth(), newOrderController.getNewOrderByID)
+    .put(auth(), newOrderController.updateNewOrderById)
+    .delete(auth(), newOrderController.deleteNewOrderById)
 
 router
   .route('/add/bulk')
-  .post(newOrderController.addBulkOrders)
+  .post(auth(), newOrderController.addBulkOrders)
 
 router
   .route('/assign/delivery-partner')
-  .post(newOrderController.assignOrdersToDeliveryPartner)
+  .post(auth(), newOrderController.assignOrdersToDeliveryPartner)
 
 module.exports = router
