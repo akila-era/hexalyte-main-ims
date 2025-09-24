@@ -115,23 +115,6 @@ const NewOrderComponent = () => {
     alert(`Uploading Files`);
   };
 
-  const getStatusBadge = (status) => {
-    const statusColors = {
-      "SUCCESS": "bg-green-100 text-green-800",
-      "REJECTED": "bg-red-100 text-red-800",
-      "NO RESPONSE": "bg-yellow-100 text-yellow-800",
-    };
-    return statusColors[status] || "bg-gray-100 text-gray-800";
-  };
-
-  const getOrderNoteBadge = (note) => {
-    const noteColors = {
-      "CONFIRM": "bg-blue-100 text-blue-800",
-      "DENIED": "bg-red-100 text-red-800",
-    };
-    return noteColors[note] || "bg-gray-100 text-gray-800";
-  };
-
   // Helper function to get status badge
   const getStatusBadge = (status) => {
     const statusConfig = {
